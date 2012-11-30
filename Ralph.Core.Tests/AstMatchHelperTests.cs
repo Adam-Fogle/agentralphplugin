@@ -1,3 +1,4 @@
+using AgentRalph.Tests.AstVisualizer;
 using ICSharpCode.NRefactory.Ast;
 using NUnit.Framework;
 
@@ -22,13 +23,15 @@ namespace AgentRalph.Tests
             Assert.AreEqual("not_a_reserverd_word", p.ParameterNameSafe());
         }
 
-        [Test]
+        [Test][RequiresSTA]
         public void TestNodeCounts()
         {
             var target = AstMatchHelper.ParseToMethodDeclaration(@"void Target() { foo(7, 7, 8, 8); }");
             var target2 = AstMatchHelper.ParseToMethodDeclaration(@"void Target() { foo(8, 8, 7, 7); }");
 
             Assert.That(target.CountNodes(), Is.EqualTo(target2.CountNodes()));
+
+            AstVisualizerHelper.Show(target);
         }
     }
 }
